@@ -9,6 +9,14 @@
 </template>
 
 <style lang="less">
+  * {
+    font-family: Roboto, sans-serif;
+  }
+
+  #app {
+    background-color: #fafafa;
+  }
+
   .link_n {
 
   }
