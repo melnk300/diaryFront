@@ -3,7 +3,7 @@
     <div class="logo">Diary</div>
     <div id="nav">
       <span><router-link class="link_n" to="/">Home</router-link></span>
-      <span><router-link class="link_n" to="/">Home</router-link></span>
+      <span><router-link class="link_n" to="/tasks">Tasks</router-link></span>
       <span><router-link class="link_n" to="/reg">Reg</router-link></span>
     </div>
     <router-view/>

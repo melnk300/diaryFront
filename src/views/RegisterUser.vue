@@ -13,12 +13,13 @@
           <input id="password" type="password" v-model="password" placeholder="You're password" v-on:input="changedPassword">
         </div>
       </form>
-      <button>Sign in</button>
+      <button v-on:click.once="registerUser">Sign in</button>
     </div>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 const axios = require('axios')
 
 export default {
@@ -38,9 +39,14 @@ export default {
     changedPassword: function () {
       this.errorPassword = !this.password;
     },
-    createUser: function () {
+    registerUser: function () {
       if (this.password && this.name) {
-        axios.post()
+        axios.post(`${process.env.VUE_APP_HOST}:5000/api/reg`, {
+          name: this.name,
+          password: this.password
+        }).then((res) => {
+          console.log(res)
+        })
       }
     }
   }
