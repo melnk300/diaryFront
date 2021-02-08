@@ -1,49 +1,106 @@
 <template>
   <div class="main">
-    <h2 class="greetings">Sign up to Diary</h2>
-    <h5 class="have_account">Already have an account? <a href="#" class="link_d">Log in</a></h5>
-    <form>
-      <div class="name">
-        <label for="name">Email:</label>
-        <input id="name" type="email" placeholder="You're name" v-model="email">
-      </div>
-      <div class="password">
-        <label for="password">Password:</label>
-        <input id="password" type="password" v-model="password">
-      </div>
-    </form>
+    <div class="content">
+      <h2 class="greetings">Sign up to Diary</h2>
+      <h5 class="have_account">Already have an account? <a href="#" class="link_d">Log in</a></h5>
+      <form>
+        <div class="name" :class="{error: errorName}">
+          <label for="name">Name:</label>
+          <input id="name" type="text" placeholder="You're name" v-model="name" v-on:input="changedName">
+        </div>
+        <div class="password" :class="{error: errorPassword}">
+          <label for="password">Password:</label>
+          <input id="password" type="password" v-model="password" placeholder="You're password" v-on:input="changedPassword">
+        </div>
+      </form>
+      <button>Sign in</button>
+    </div>
   </div>
 </template>
 
 <script>
+const axios = require('axios')
+
 export default {
   name: "RegisterUser",
   data: function () {
     return {
-      email: '',
-      password: ''
+      name: '',
+      password: '',
+      errorName: false,
+      errorPassword: false,
+    }
+  },
+  methods: {
+    changedName: function () {
+      this.errorName = !this.name;
+    },
+    changedPassword: function () {
+      this.errorPassword = !this.password;
+    },
+    createUser: function () {
+      if (this.password && this.name) {
+        axios.post()
+      }
     }
   }
 }
 </script>
 
-<style scoped lang="less">
-  form > * {
+<style scoped>
+  .main {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    width: min(80%,500px);
+  }
+
+  input, label {
     display: block;
   }
 
   label {
-    font-size: 1.15rem;
-
+    font-size: 1rem;
   }
 
   input {
-    font-size: 1.3rem;
-    width: 80%;
+    background: none;
+    font-size: 1.2rem;
+    width: 100%;
     border: none;
+    outline:none;
+
   }
 
-  .email, .password {
+  .name, .password {
+    padding: .4rem .8rem;
+    border-radius: .6rem;
+    border: 1px solid #b4b4b4;
+    margin: 1rem 0;
+  }
 
+
+  .name.error, .password.error {
+     border-color: red;
+   }
+
+  button {
+    font-size: 1.4rem;
+    display: block;
+    width: 100%;
+    padding: .36rem 0;
+    background: none;
+    border: 1px solid black;
+    border-radius: .6rem;
+    transition: .5s ease-in-out;
+  }
+
+  button:hover {
+    background-color: black;
+    color: white;
   }
 </style>
