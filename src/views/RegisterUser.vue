@@ -44,9 +44,9 @@ export default {
         axios.post(`${process.env.VUE_APP_HOST}:5000/api/reg`, {
           name: this.name,
           password: this.password
-        }).then((res) => {
-          console.log(res)
-        })
+        }) //.then((res) => {
+        //   //  if (body.)
+        // })
       }
     }
   }

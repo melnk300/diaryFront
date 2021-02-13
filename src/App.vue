@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="error">
+      <p class="error_head"></p>
+      <p class="error_msg"></p>
+    </div>
     <div class="logo">Diary</div>
     <div id="nav">
       <span><router-link class="link_n" to="/">Home</router-link></span>
@@ -9,6 +13,17 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      errors: {}
+    }
+  }
+}
+</script>
 
 <style lang="less">
   * {
@@ -25,8 +40,10 @@
   }
 
   .logo {
+    margin: .3em 0;
     text-align: center;
     font-size: 2rem;
+    cursor: pointer;
   }
 
   #nav {
