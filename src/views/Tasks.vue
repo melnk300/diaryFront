@@ -76,17 +76,21 @@ export default {
 
 <style scoped lang="less">
 
-  @media handheld {
+  @media screen and (min-width: 480px) {
     .content {
-      display: block;
+      display: grid;
+    }
+
+    .tasks {
+      padding: 1em 0;
     }
   }
 
-  @media not handheld {
+  @media screen and (min-width: 992px) {
     .content {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-gap: 1.5em;
+      grid-gap: 1em;
     }
   }
 
