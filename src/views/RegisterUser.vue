@@ -41,12 +41,13 @@ export default {
     },
     registerUser: function () {
       if (this.password && this.name) {
-        axios.post(`${process.env.VUE_APP_HOST}:5000/api/reg`, {
+        axios.post(`http://${process.env.VUE_APP_HOST_CUSTOM}:5000/api/reg`, {
           name: this.name,
           password: this.password
-        }) //.then((res) => {
-        //   //  if (body.)
-        // })
+          // eslint-disable-next-line no-unused-vars
+        }).then((res) => {
+          localStorage.setItem('isReg', 1)
+        })
       }
     }
   }

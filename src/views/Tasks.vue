@@ -1,5 +1,11 @@
 <template>
   <div class="main">
+    <div class="pop_up-button">+</div>
+    <div class="pop_up-menu">
+      <div class="pop_up-content">
+        <h2>Add task</h2>
+      </div>
+    </div>
     <div class="date">
 <!--      <span class="back_arrow arrow">&#706;</span>-->
       <span class="today_date">
@@ -8,14 +14,12 @@
 <!--      <span class="forward_arrow arrow" v-on:click="addDay">&#707;</span>-->
     </div>
     <div class="content">
-      <div class="tasks" v-for="task in tasks" :key="tasks.indexOf(task)">
-        <div class="task-card">
-          <p class="meta">
-            <span class="subject">{{task.subject}}</span>
-            <span class="author">{{task.author}}</span>
-          </p>
-          <p class="task-content">{{task.task}}</p>
-        </div>
+      <div class="task-card" v-for="task in tasks" :key="tasks.indexOf(task)">
+        <p class="meta">
+          <span class="subject">{{task.subject}}</span>
+          <span class="author">{{task.author}}</span>
+        </p>
+        <p class="task-content">{{task.task}}</p>
       </div>
     </div>
   </div>
@@ -33,7 +37,7 @@ export default {
         {
           id: '1',
           subject: 'русский',
-          task: '№434',
+          task: 'Выполнить упражнения: 244-250 (под нечётными номерами)',
           author: 'Rusm'
         },
         {
@@ -74,19 +78,19 @@ export default {
 }
 </script>
 
+<style scoped>
+
+</style>
+
 <style scoped lang="less">
 
-  @media screen and (min-width: 480px) {
-    .content {
-      display: grid;
-    }
-
-    .tasks {
-      padding: 1em 0;
+  @media screen and (max-width: 991px) {
+    .task-card {
+      margin: .8em 0;
     }
   }
 
-  @media screen and (min-width: 992px) {
+  @media screen and (min-device-width: 992px) {
     .content {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -112,14 +116,50 @@ export default {
   }
 
   .task-card {
-    padding: .2em .8em;
+    padding: .6em 1.2em;
     background-color: white;
     border-radius: 10px;
+
+    .subject {
+      font-weight: 500;
+      font-size: 1.1em;
+      text-transform: capitalize;
+    }
 
     .author {
       font-size: .8em;
       color: #7389d6;
-      padding: 0 .3em;
+      padding: 0 .6em;
     }
+
+    .task-content {
+
+    }
+  }
+
+  .pop_up-button {
+    display: flex;
+    position: absolute;
+    bottom: .8em;
+    right: .8em;
+    width: 1em;
+    height: 1em;
+    font-size: 2.5em;
+    background-color: limegreen;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .pop_up-menu {
+    position: fixed;
+    margin: 5% auto
+  }
+
+  .pop_up-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
