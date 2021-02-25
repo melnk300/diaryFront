@@ -1,11 +1,5 @@
 <template>
   <div class="main">
-    <div class="pop_up-button">+</div>
-    <div class="pop_up-menu">
-      <div class="pop_up-content">
-        <h2>Add task</h2>
-      </div>
-    </div>
     <div class="date">
 <!--      <span class="back_arrow arrow">&#706;</span>-->
       <span class="today_date">
@@ -22,10 +16,29 @@
         <p class="task-content">{{task.task}}</p>
       </div>
     </div>
+    <div class="popup" v-if="modalActive">
+      <div class="popup_menu">
+        <form v-on:submit.prevent="addTask">
+          <h2>Let's add a task</h2>
+          <div class="input" :class="{error: errorSubject}">
+            <input id="subject" type="text" placeholder="Subject" v-model="newTask.subject" v-on:input="changedSubject">
+          </div>
+          <div class="input" :class="{error: errorTask}">
+            <input id="task" type="text" placeholder="Task" v-model="newTask.task" v-on:input="changedTask">
+          </div>
+          <div class="input" :class="{error: errorDate}">
+            <input id="form_date" type="date" v-model="newTask.date" v-on:input="changedDate">
+          </div>
+          <button>Submit</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup_btn" v-on:click="modalActive = true">+</div>
   </div>
 </template>
 
 <script>
+const axios = require('axios')
 const luxon = require('luxon')
 let dt = luxon.DateTime.local().setLocale('ru')
 export default {
@@ -70,7 +83,43 @@ export default {
           task: '№434',
           author: 'Rusm'
         }
-      ]
+      ],
+      newTask: {
+        subject: '',
+        task: '',
+        date: ''
+      },
+      modalActive: false,
+      errorSubject: false,
+      errorTask: false,
+      errorDate: false
+    }
+  },
+  methods: {
+    addTask: function () {
+      if (this.newTask.subject && this.newTask.task && this.newTask.date) {
+        axios.post(`http://${process.env.VUE_APP_HOST_CUSTOM}:5000/api/`, {
+          user: {
+            login: localStorage.getItem('login'),
+            password: localStorage.getItem('password')
+          },
+          payload: {
+            subject: this.newTask.subject,
+            task: this.newTask.task
+          }
+        })
+        console.log(localStorage.getItem('login'), localStorage.getItem('password'))
+        this.modalActive = false
+      }
+    },
+    changedSubject: function () {
+      this.errorSubject = !this.newTask.subject
+    },
+    changedTask: function () {
+      this.errorTask = !this.newTask.task
+    },
+    changedDate: function () {
+      this.errorDate = !this.newTask.date
     }
   },
   computed: {
@@ -79,7 +128,13 @@ export default {
 </script>
 
 <style scoped>
+  .popup_menu {
+    width: min(80%, 400px);
+  }
 
+  form {
+    width: 100%;
+  }
 </style>
 
 <style scoped lang="less">
@@ -118,11 +173,11 @@ export default {
   .task-card {
     padding: .6em 1.2em;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 1em;
+    box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.06);
 
     .subject {
-      font-weight: 500;
-      font-size: 1.1em;
+      font-size: 1.2em;
       text-transform: capitalize;
     }
 
@@ -133,33 +188,79 @@ export default {
     }
 
     .task-content {
-
+      font-size: 1.1em;
     }
   }
 
-  .pop_up-button {
+  .popup_btn {
+    position: fixed;
     display: flex;
-    position: absolute;
-    bottom: .8em;
-    right: .8em;
-    width: 1em;
-    height: 1em;
-    font-size: 2.5em;
-    background-color: limegreen;
-    align-items: center;
-    justify-content: center;
+    background-color: #60e060;
+    width: 1.2em;
+    height: 1.2em;
+    font-size: 2em;
     border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    right: .6em;
+    bottom: .6em;
     cursor: pointer;
   }
 
-  .pop_up-menu {
+  .popup {
     position: fixed;
-    margin: 5% auto
-  }
-
-  .pop_up-content {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    .popup_menu {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      padding: 1em .8em;
+      border-radius: 1em;
+      box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.06);
+
+      input {
+        background: none;
+        font-size: 1.2rem;
+        width: 100%;
+        border: none;
+        outline: none;
+      }
+
+      .input {
+        padding: .4rem .8rem;
+        border-radius: .6rem;
+        border: 1px solid #b4b4b4;
+        margin: 1rem 0;
+      }
+
+
+      .error {
+        border-color: red;
+      }
+
+      button {
+        font-size: 1.4rem;
+        display: block;
+        width: 100%;
+        padding: .36rem 0;
+        background: none;
+        border: 1px solid black;
+        border-radius: .6rem;
+        transition: .5s ease-in-out;
+
+        &:hover {
+          color: white;
+          background-color: black;
+        }
+      }
+    }
   }
 </style>
