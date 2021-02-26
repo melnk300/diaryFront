@@ -8,7 +8,8 @@
     <div id="nav">
       <span><router-link class="link_n" to="/">Home</router-link></span>
       <span><router-link class="link_n" to="/tasks">Tasks</router-link></span>
-      <span><router-link class="link_n" to="/reg">Reg</router-link></span>
+      <span v-if="isReg === '0'"><router-link class="link_n" to="/log_in">Log in | Sign up</router-link></span>
+      <span v-else class="link_n" v-on:click="signOut">Sign out</span>
     </div>
     <router-view/>
   </div>
@@ -19,7 +20,20 @@ export default {
   name: 'App',
   data() {
     return {
-      errors: {}
+      isReg: localStorage.getItem('isReg'),
+      errors: {
+        header: '',
+        description: '',
+        isAble: ''
+      }
+    }
+  },
+  methods: {
+    signOut: function () {
+      localStorage.setItem('isReg','0')
+      localStorage.setItem('login', '')
+      localStorage.setItem('password', '')
+      this.$router.go(this.$router.currentRoute)
     }
   }
 }
