@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import RegisterUser from '@/views/RegisterUser.vue'
+import LoginUser from '@/views/LoginUser.vue'
 import Tasks from "@/views/Tasks";
 
 Vue.use(VueRouter)
@@ -13,7 +14,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/reg',
+    path: '/sign_up',
     name: 'RegisterUser',
     component: RegisterUser
   },
@@ -21,7 +22,12 @@ const routes = [
     path: '/tasks',
     name: 'Tasks',
     component: Tasks
-  }
+  },
+  {
+    path: '/log_in',
+    name: 'Tasks',
+    component: LoginUser
+  },
 ]
 
 const router = new VueRouter({

@@ -2,7 +2,7 @@
   <div class="main">
     <div class="content">
       <h2 class="greetings">Sign up to Diary</h2>
-      <h5 class="have_account">Already have an account? <a href="#" class="link_d">Log in</a></h5>
+      <h5 class="have_account">Already have an account? <router-link to="log_in" class="link_d">Let's Log in</router-link></h5>
       <form>
         <div class="name" :class="{error: errorName}">
           <label for="name">Name:</label>
@@ -42,11 +42,20 @@ export default {
     registerUser: function () {
       if (this.password && this.name) {
         axios.post(`http://${process.env.VUE_APP_HOST_CUSTOM}:5000/api/reg`, {
-          name: this.name,
+          login: this.name,
           password: this.password
-          // eslint-disable-next-line no-unused-vars
         }).then((res) => {
-          localStorage.setItem('isReg', 1)
+          console.log(res)
+          if (res.data === 200) {
+            console.log(`i'm ok. I'm not teapot`)
+            localStorage.setItem('isReg', '1')
+            localStorage.setItem('login', this.name)
+            localStorage.setItem('password', this.password)
+            this.$router.push("/tasks")
+          }
+          else {
+            return 0
+          }
         })
       }
     }
@@ -80,7 +89,6 @@ export default {
     width: 100%;
     border: none;
     outline:none;
-
   }
 
   .name, .password {
