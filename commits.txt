@@ -1,0 +1,10 @@
+dacedc0a
+    modified:   src/App.vue
+
+
+modified:   src/views/LoginUser.vue
+modified:   src/views/RegisterUser.vue
+modified:   src/views/Tasks.vue
+
+
+26.02
