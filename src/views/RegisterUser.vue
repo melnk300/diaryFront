@@ -13,7 +13,7 @@
           <input id="password" type="password" v-model="password" placeholder="You're password" v-on:input="changedPassword">
         </div>
       </form>
-      <button v-on:click.once="registerUser">Sign in</button>
+      <button v-on:click="registerUser">Sign in</button>
     </div>
   </div>
 </template>
@@ -52,9 +52,14 @@ export default {
             localStorage.setItem('login', this.name)
             localStorage.setItem('password', this.password)
             this.$router.push("/tasks")
+            this.$router.go(this.$router.currentRoute)
           }
           else {
-            return 0
+            this.$store.commit('SET_ERROR', {
+              header: "You're login is alredy taken.",
+              description: "",
+              level: "error"
+            });
           }
         })
       }

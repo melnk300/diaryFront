@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <div class="error">
-      <p class="error_head"></p>
-      <p class="error_msg"></p>
+    <div class="error_d" v-if="error" :class="error.level" v-on:>
+      <p class="error_head">{{error.header}}</p>
+      <p class="error_msg">{{error.description}}</p>
+      <button class="error_btn" v-on:click="closeError">Ok</button>
     </div>
     <div class="logo">Diary</div>
     <div id="nav">
@@ -21,12 +22,10 @@ export default {
   data() {
     return {
       isReg: localStorage.getItem('isReg'),
-      errors: {
-        header: '',
-        description: '',
-        isAble: ''
-      }
     }
+  },
+  mounted() {
+    console.log(this.error)
   },
   methods: {
     signOut: function () {
@@ -34,10 +33,21 @@ export default {
       localStorage.setItem('login', '')
       localStorage.setItem('password', '')
       this.$router.go(this.$router.currentRoute)
+    },
+    closeError: function () {
+      this.$store.commit('SET_ERROR', '')
+    }
+  },
+  computed: {
+    error() {
+      return this.$store.getters.ERROR
     }
   }
 }
 </script>
+
+<style scoped>
+</style>
 
 <style lang="less">
   * {
@@ -87,6 +97,39 @@ export default {
     &:hover:after {
       opacity: 1;
       width: 100%;
+    }
+  }
+
+  .error_d {
+    top: .5em;
+    left: 50%;
+    transform: translate(-50%, 0);
+    position: fixed;
+    display: flex;
+    background-color: white;
+    padding: .4rem .8rem;
+    border-radius: .4rem;
+    flex-direction: column;
+    align-items: flex-end;
+
+    &.error {
+      background-color: rgb(250, 139, 139);
+    }
+
+    button.error_btn {
+      margin-top: .4rem;
+      font-size: 1rem;
+      padding: .36rem .5rem;
+      background: none;
+      border: 1px solid black;
+      border-radius: .6rem;
+      transition: .2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        background-color: black;
+        color: white;
+      }
     }
   }
 </style>
