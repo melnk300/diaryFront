@@ -4,16 +4,21 @@ from cfg import DevConfig as cfg
 from pprint import pprint
 con = utils.create_connection(*cfg.PG.values())
 #con = utils.create_connection(*cfg.PG.values())
+
+
 class User:
     pass
+
+
 class User_Web(User):
-       
+
     def register_user(self, payload):
         try:
-            self.login, self.password  = payload['login'], utils.hash_password(payload['password'])
+            self.login, self.password = payload['login'], utils.hash_password(
+                payload['password'])
             with con.cursor() as cur:
                 cur.execute(
-                f"SELECT id FROM users where login = '{self.login}'"
+                    f"SELECT id FROM users where login = '{self.login}'"
                 )
                 res = cur.fetchall()
                 if res:
@@ -27,10 +32,11 @@ class User_Web(User):
                         return '200'
         except Exception as e:
             print(e)
+
     def register_education(self, payload):
         try:
             self.group = '_'.join(payload.values).lower()
-            
+
             with con.cursor() as cur:
                 cur.execute(
                     f"SELECT id WHERE groupe = '{self.group}'"
@@ -47,6 +53,7 @@ class User_Web(User):
                         return '200'
         except Exception as e:
             print(e)
+
     def login_check(self, payload):
         try:
             self.login, self.password = payload['login'], payload['password']
@@ -54,13 +61,16 @@ class User_Web(User):
                 cur.execute(
                     f"SELECT password FROM users WHERE login='{self.login}'"
                 )
-                res=cur.fetchone()[0]
-                if utils.check_password(payload['password'], res): # => b'asdasdas'.encode('utf-8') => 
+                res = cur.fetchone()[0]
+                # => b'asdasdas'.encode('utf-8') =>
+                if utils.check_password(payload['password'], res):
                     return '200'
                 else:
                     raise Login_Error
+
         except Exception as e:
             print(e)
+
     def get_group(self):
         try:
             with con.cursor() as cur:
@@ -68,12 +78,15 @@ class User_Web(User):
                     f"SELECT groupe FROM users WHERE login='{self.login}'"
                 )
                 res = cur.fetchone()
-                return res[0]  
+                return res[0]
         except Exception as e:
             print(e)
-        
+
+
 class User_Bot(User):
     pass
+
+
 class Task:
     def add_task(self, payload, user):
         try:
@@ -86,6 +99,7 @@ class Task:
                 return '200'
         except Exception as e:
             print(e)
+
     def get_task(self, payload, user):
         try:
             date = payload['date']
@@ -99,10 +113,10 @@ class Task:
                     'subject': res[1],
                     'task': res[2],
                     'author': res[3]
-                } for res in response] # => [el**2 for el in list]
+                } for res in response]  # => [el**2 for el in list]
         except Exception as e:
             print(e)
-            
+
     def delete_task(self, payload, user):
         try:
             id = payload['id']
