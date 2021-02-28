@@ -62,8 +62,7 @@ class User_Web(User):
                     f"SELECT password FROM users WHERE login='{self.login}'"
                 )
                 res = cur.fetchone()[0]
-                # => b'asdasdas'.encode('utf-8') =>
-                if utils.check_password(payload['password'], res):
+                if utils.check_password(self.password, res):
                     return '200'
                 else:
                     raise Login_Error

@@ -30,7 +30,7 @@ def log_check():
         payload = request.get_json()
         res = user.login_check(payload)
         return res
-    finally:
+    except Login_Error:
         return '401'
 
 
