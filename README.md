@@ -1,24 +1,4 @@
-# diaryfront
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# Branch system(based on Developer Branch Workflow):
+master: canary release branch
+release: stable release branch
+<developer>: developer's own branch
