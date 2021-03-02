@@ -18,6 +18,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    ADD_ERROR: (context, payload) => {
+      context.commit('SET_ERROR', payload)
+      setTimeout(() => context.commit('SET_ERROR', ''), 3000)
+    }
   },
   modules: {
   }

@@ -80,7 +80,7 @@ export default {
               this.$router.push("/tasks");
               this.$router.go(this.$router.currentRoute);
             } else {
-              this.$store.commit("SET_ERROR", {
+              this.$store.dispatch("ADD_ERROR", {
                 header: "You're login or password incorrect.",
                 description: "",
                 level: "error",
